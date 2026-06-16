@@ -1,0 +1,13 @@
+name: chuadanga_blood_bank
+description: A new Flutter project for blood donation.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.5
+  url_launcher: ^6.1.5 # For WhatsApp linking
