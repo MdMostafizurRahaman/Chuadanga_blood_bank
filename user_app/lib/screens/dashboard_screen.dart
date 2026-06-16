@@ -93,7 +93,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       Expanded(
                         child: DropdownButtonFormField<String>(
-                          value: _selectedUpazila,
+                          initialValue: _selectedUpazila,
                           decoration: InputDecoration(
                             labelText: 'Upazila',
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -110,7 +110,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: DropdownButtonFormField<String>(
-                          value: _selectedBloodGroup,
+                          initialValue: _selectedBloodGroup,
                           decoration: InputDecoration(
                             labelText: 'Blood Group',
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
