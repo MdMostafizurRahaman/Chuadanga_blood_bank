@@ -26,7 +26,7 @@ class ContactScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('$bloodGroup Blood'),
+        title: Text('$bloodGroup রক্ত'),
         backgroundColor: Colors.red,
       ),
       body: Padding(
@@ -37,16 +37,16 @@ class ContactScreen extends StatelessWidget {
             CircleAvatar(
               radius: 50,
               backgroundColor: Colors.red.shade50,
-              child: Icon(Icons.bloodtype, size: 60, color: Colors.red.shade700),
+              child: Text('\u{1FA78}', style: TextStyle(fontSize: 40)),
             ),
             const SizedBox(height: 20),
             Text(
-              'Blood Group: $bloodGroup',
+              '\u{1FA78} ব্লাড গ্রুপ: $bloodGroup',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              'Contact Admin to register as donor',
+              '\u{1F4DE} ডোনার হিসেবে নিবন্ধনের জন্য অ্যাডমিনের সাথে যোগাযোগ করুন',
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             const SizedBox(height: 40),
@@ -55,7 +55,7 @@ class ContactScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: _launchWhatsApp,
                 icon: const Icon(Icons.chat, color: Colors.white),
-                label: const Text('Contact via WhatsApp', style: TextStyle(color: Colors.white, fontSize: 16)),
+                label: const Text('\u{1F4AC} হোয়াটসঅ্যাপে যোগাযোগ করুন', style: TextStyle(color: Colors.white, fontSize: 16)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF25D366),
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -69,7 +69,7 @@ class ContactScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: _launchPhone,
                 icon: const Icon(Icons.phone, color: Colors.white),
-                label: const Text('Call Admin', style: TextStyle(color: Colors.white, fontSize: 16)),
+                label: const Text('\u{1F4F1} অ্যাডমিনকে কল করুন', style: TextStyle(color: Colors.white, fontSize: 16)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -91,7 +91,7 @@ class ContactScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Send your Name, Photo, Address, Phone & Blood Group to admin via WhatsApp.\nAdmin will register you as a donor.',
+                      'আপনার নাম, ছবি, ঠিকানা, ফোন ও ব্লাড গ্রুপ হোয়াটসঅ্যাপের মাধ্যমে অ্যাডমিনকে পাঠান।\nঅ্যাডমিন আপনাকে ডোনার হিসেবে নিবন্ধিত করবেন।',
                       style: TextStyle(color: Colors.amber.shade900, fontSize: 13),
                     ),
                   ),

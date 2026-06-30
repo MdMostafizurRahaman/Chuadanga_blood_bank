@@ -1,8 +1,13 @@
 import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 
 export default function Nav() {
   const router = useRouter()
-  const name = typeof window !== 'undefined' ? localStorage.getItem('admin_name') : ''
+  const [name, setName] = useState('')
+
+  useEffect(() => {
+    setName(localStorage.getItem('admin_name') || '')
+  }, [])
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token')
@@ -11,9 +16,9 @@ export default function Nav() {
   }
 
   const links = [
-    { href: '/', label: 'Dashboard' },
-    { href: '/register', label: 'Register Donor' },
-    { href: '/donors', label: 'View Donors' },
+    { href: '/', label: 'ড্যাশবোর্ড' },
+    { href: '/register', label: 'ডোনার নিবন্ধন' },
+    { href: '/donors', label: 'ডোনার তালিকা' },
   ]
 
   return (
@@ -28,7 +33,7 @@ export default function Nav() {
           ))}
           <span style={{ color: '#999', padding: '8px 0' }}>|</span>
           <span style={{ color: '#666', padding: '8px 0' }}>{name}</span>
-          <button onClick={handleLogout} className="btn btn-danger" style={{ padding: '6px 16px', fontSize: 14 }}>Logout</button>
+          <button onClick={handleLogout} className="btn btn-danger" style={{ padding: '6px 16px', fontSize: 14 }}>লগআউট</button>
         </div>
       </div>
     </nav>

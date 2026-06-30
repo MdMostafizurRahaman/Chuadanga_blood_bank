@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Available Donors'),
+        title: const Text('ডোনার তালিকা'),
         backgroundColor: Colors.red,
         automaticallyImplyLeading: false,
         actions: [
@@ -80,8 +80,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Welcome, ${_donor.name}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red.shade800)),
-                          Text('${_donor.bloodGroup} | ${_donor.upazila}', style: TextStyle(fontSize: 12, color: Colors.red.shade600)),
+                          Text('\u{1F44B} স্বাগতম, ${_donor.name}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red.shade800)),
+                          Text('\u{1FA78} ${_donor.bloodGroup} | \u{1F4CD} ${_donor.upazila}', style: TextStyle(fontSize: 12, color: Colors.red.shade600)),
                         ],
                       ),
                     ],
@@ -95,11 +95,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: DropdownButtonFormField<String>(
                           initialValue: _selectedUpazila,
                           decoration: InputDecoration(
-                            labelText: 'Upazila',
+                            labelText: 'উপজেলা',
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           ),
-                          items: [const DropdownMenuItem(value: null, child: Text('All Upazila'))]
+                          items: [const DropdownMenuItem(value: null, child: Text('সব উপজেলা'))]
                               ..addAll(_upazilas.map((u) => DropdownMenuItem(value: u, child: Text(u)))),
                           onChanged: (v) {
                             setState(() => _selectedUpazila = v);
@@ -112,11 +112,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: DropdownButtonFormField<String>(
                           initialValue: _selectedBloodGroup,
                           decoration: InputDecoration(
-                            labelText: 'Blood Group',
+                            labelText: 'ব্লাড গ্রুপ',
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           ),
-                          items: [const DropdownMenuItem(value: null, child: Text('All Groups'))]
+                          items: [const DropdownMenuItem(value: null, child: Text('সব গ্রুপ'))]
                               ..addAll(_bloodGroups.map((bg) => DropdownMenuItem(value: bg, child: Text(bg)))),
                           onChanged: (v) {
                             setState(() => _selectedBloodGroup = v);
@@ -135,7 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             children: [
                               Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
                               const SizedBox(height: 12),
-                              Text('No donors found', style: TextStyle(fontSize: 16, color: Colors.grey[600])),
+                              Text('কোনো ডোনার পাওয়া যায়নি', style: TextStyle(fontSize: 16, color: Colors.grey[600])),
                             ],
                           ),
                         )
@@ -156,7 +156,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                 ),
                                 title: Text(donor.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-                                subtitle: Text('${donor.upazila} | ${donor.phone}'),
+                                subtitle: Text('\u{1F4CD} ${donor.upazila} | \u{1F4F1} ${donor.phone}'),
                                 trailing: ElevatedButton(
                                   onPressed: () {
                                     final uri = Uri.parse('tel:${donor.phone}');
@@ -168,7 +168,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                   ),
-                                  child: const Text('Call', style: TextStyle(fontSize: 12)),
+                                  child: const Text('কল', style: TextStyle(fontSize: 12)),
                                 ),
                               ),
                             );

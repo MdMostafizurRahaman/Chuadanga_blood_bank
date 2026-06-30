@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/donor.dart';
+import 'config.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://10.0.2.2:8000';
+  static String get baseUrl => AppConfig.apiUrl;
 
   static Future<List<Donor>> searchDonors({String? bloodGroup, String? upazila}) async {
     final params = <String, String>{};
@@ -15,7 +16,7 @@ class ApiService {
       final List data = jsonDecode(res.body);
       return data.map((e) => Donor.fromJson(e)).toList();
     }
-    throw Exception('Failed to load donors');
+    throw Exception('ডোনার লোড করতে ব্যর্থ');
   }
 
   static Future<Map<String, dynamic>> login(String phone) async {
@@ -26,7 +27,7 @@ class ApiService {
     );
     final data = jsonDecode(res.body);
     if (res.statusCode == 200) return data;
-    throw Exception(data['detail'] ?? 'Login failed');
+    throw Exception(data['detail'] ?? 'লগইন ব্যর্থ হয়েছে');
   }
 
   static Future<List<String>> getUpazilas() async {

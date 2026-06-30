@@ -11,3 +11,10 @@ dependencies:
     sdk: flutter
   http: ^0.13.5
   url_launcher: ^6.1.5 # For WhatsApp linking
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Noto Color Emoji
+      fonts:
+        - asset: assets/fonts/NotoColorEmoji.ttf

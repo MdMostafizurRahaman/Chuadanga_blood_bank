@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Nav from '../components/Nav'
 
+const API = process.env.NEXT_PUBLIC_API_URL
+
 export default function Dashboard() {
   const [stats, setStats] = useState({ total: 0, active: 0, registered: 0 })
   const [loading, setLoading] = useState(true)
@@ -9,7 +11,7 @@ export default function Dashboard() {
   useEffect(() => {
     const token = localStorage.getItem('admin_token')
     if (!token) { window.location.href = '/login'; return }
-    fetch('http://localhost:8000/admin/donors')
+    fetch(`${API}/admin/donors`)
       .then(res => res.json())
       .then(data => {
         setStats({
@@ -22,29 +24,29 @@ export default function Dashboard() {
       .catch(() => setLoading(false))
   }, [])
 
-  if (loading) return <div className="loading">Loading...</div>
+  if (loading) return <div className="loading">লোড হচ্ছে...</div>
 
   return (
     <div>
-      <Head><title>Dashboard - Chuadanga Blood Bank</title></Head>
+      <Head><title>ড্যাশবোর্ড - Chuadanga Blood Bank</title></Head>
       <Nav />
       <div className="container">
-        <h2 style={{ marginBottom: 24 }}>Dashboard</h2>
+        <h2 style={{ marginBottom: 24 }}>ড্যাশবোর্ড</h2>
         <div className="grid-2">
           <div className="card stat-card">
             <div className="stat-number">{stats.total}</div>
-            <div className="stat-label">Total Donors</div>
+            <div className="stat-label">মোট ডোনার</div>
           </div>
           <div className="card stat-card">
             <div className="stat-number">{stats.active}</div>
-            <div className="stat-label">Active Donors</div>
+            <div className="stat-label">সক্রিয় ডোনার</div>
           </div>
         </div>
         <div className="card" style={{ marginTop: 20 }}>
-          <h3 style={{ marginBottom: 16 }}>Quick Actions</h3>
+          <h3 style={{ marginBottom: 16 }}>দ্রুত কার্যক্রম</h3>
           <div style={{ display: 'flex', gap: 12 }}>
-            <a href="/register" className="btn btn-primary">Register New Donor</a>
-            <a href="/donors" className="btn btn-secondary">View All Donors</a>
+            <a href="/register" className="btn btn-primary">নতুন ডোনার নিবন্ধন</a>
+            <a href="/donors" className="btn btn-secondary">সব ডোনার দেখুন</a>
           </div>
         </div>
       </div>

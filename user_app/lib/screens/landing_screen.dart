@@ -31,12 +31,12 @@ class LandingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Chuadanga Blood Bank',
+              '\u{1FA78} Chuadanga Blood Bank',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red),
             ),
             const SizedBox(height: 4),
             Text(
-              'Find blood donors in Chuadanga',
+              '\u{1F50D} চুয়াডাঙ্গায় ব্লাড ডোনার খুঁজুন',
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             const SizedBox(height: 32),
@@ -62,7 +62,7 @@ class LandingScreen extends StatelessWidget {
                           children: [
                             Icon(Icons.login, color: Colors.white, size: 18),
                             SizedBox(width: 6),
-                            Text('Login', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                            Text('\u{1F464} লগইন', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
@@ -73,7 +73,7 @@ class LandingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Select Blood Group',
+              'ব্লাড গ্রুপ নির্বাচন করুন',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 16),
@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     final phone = _phoneController.text.trim();
     if (phone.isEmpty) {
-      setState(() => _error = 'Please enter your phone number');
+      setState(() => _error = 'অনুগ্রহ করে আপনার ফোন নম্বর দিন');
       return;
     }
     setState(() { _loading = true; _error = null; });
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login'), backgroundColor: Colors.red),
+      appBar: AppBar(title: const Text('লগইন'), backgroundColor: Colors.red),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Icon(Icons.phone_android, size: 64, color: Colors.red),
             const SizedBox(height: 24),
             const Text(
-              'Enter your registered phone number',
+              '\u{1F4F1} আপনার নিবন্ধিত ফোন নম্বর দিন',
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
@@ -178,8 +178,8 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: _phoneController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                labelText: 'Phone Number',
-                hintText: 'e.g. 017XXXXXXXX',
+                labelText: 'ফোন নম্বর',
+                hintText: 'যেমন: 017XXXXXXXX',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 prefixIcon: const Icon(Icons.phone),
               ),
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: _loading
                     ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                    : const Text('Login', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    : const Text('লগইন', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ),
             ),
           ],

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Nav from '../components/Nav'
 
+const API = process.env.NEXT_PUBLIC_API_URL
+
 export default function Donors() {
   const [donors, setDonors] = useState([])
   const [loading, setLoading] = useState(true)
@@ -15,7 +17,7 @@ export default function Donors() {
 
   const loadDonors = async () => {
     try {
-      const res = await fetch('http://localhost:8000/admin/donors')
+      const res = await fetch(`${API}/admin/donors`)
       const data = await res.json()
       setDonors(data)
     } catch (err) {
@@ -25,9 +27,9 @@ export default function Donors() {
   }
 
   const handleDelete = async (phone) => {
-    if (!confirm('Delete this donor?')) return
+    if (!confirm('এই ডোনারটি মুছে ফেলবেন?')) return
     try {
-      await fetch(`http://localhost:8000/admin/donors/${phone}`, { method: 'DELETE' })
+      await fetch(`${API}/admin/donors/${phone}`, { method: 'DELETE' })
       loadDonors()
     } catch (err) {
       console.error(err)
@@ -40,35 +42,35 @@ export default function Donors() {
     return matchSearch && matchBg
   })
 
-  if (loading) return <div className="loading">Loading...</div>
+  if (loading) return <div className="loading">লোড হচ্ছে...</div>
 
   return (
     <div>
-      <Head><title>Donors - Chuadanga Blood Bank</title></Head>
+      <Head><title>ডোনার তালিকা - Chuadanga Blood Bank</title></Head>
       <Nav />
       <div className="container">
-        <h2 style={{ marginBottom: 24 }}>All Donors</h2>
+        <h2 style={{ marginBottom: 24 }}>সব ডোনার</h2>
         <div className="card">
           <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
-            <input className="input" placeholder="Search by name or phone..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ flex: 1 }} />
+            <input className="input" placeholder="নাম বা ফোন দিয়ে খুঁজুন..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ flex: 1 }} />
             <select className="select" value={filterBg} onChange={(e) => setFilterBg(e.target.value)} style={{ width: 150 }}>
-              <option value="">All Groups</option>
+              <option value="">সব গ্রুপ</option>
               {['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(bg => <option key={bg} value={bg}>{bg}</option>)}
             </select>
           </div>
           {filtered.length === 0 ? (
-            <p style={{ textAlign: 'center', color: '#666', padding: 40 }}>No donors found</p>
+            <p style={{ textAlign: 'center', color: '#666', padding: 40 }}>কোনো ডোনার পাওয়া যায়নি</p>
           ) : (
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Phone</th>
-                  <th>Blood Group</th>
-                  <th>Upazila</th>
-                  <th>Address</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th>নাম</th>
+                  <th>ফোন</th>
+                  <th>ব্লাড গ্রুপ</th>
+                  <th>উপজেলা</th>
+                  <th>ঠিকানা</th>
+                  <th>স্ট্যাটাস</th>
+                  <th>অ্যাকশন</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,7 +82,7 @@ export default function Donors() {
                     <td>{d.upazila}</td>
                     <td>{d.address}</td>
                     <td><span className={`badge ${d.status === 'active' ? 'badge-active' : 'badge-inactive'}`}>{d.status}</span></td>
-                    <td><button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 13 }} onClick={() => handleDelete(d.phone)}>Delete</button></td>
+                    <td><button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 13 }} onClick={() => handleDelete(d.phone)}>মুছে ফেলুন</button></td>
                   </tr>
                 ))}
               </tbody>

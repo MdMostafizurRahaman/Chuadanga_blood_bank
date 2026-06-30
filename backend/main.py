@@ -3,8 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
-import bcrypt
+import os, bcrypt
+from dotenv import load_dotenv
 from database import admins_collection, donors_collection, requests_collection
+
+load_dotenv()
 
 app = FastAPI(title="Chuadanga Blood Bank API")
 
@@ -73,18 +76,18 @@ def donor_to_response(d):
 def admin_login(data: AdminLogin):
     admin = admins_collection.find_one({"username": data.username})
     if not admin or not bcrypt.checkpw(data.password.encode(), admin["password"]):
-        raise HTTPException(401, "Invalid credentials")
+        raise HTTPException(401, "ভুল তথ্য")
     return {"token": "admin_token", "name": admin["name"]}
 
 @app.post("/admin/register-donor")
 def register_donor(data: DonorRegister):
     if data.blood_group not in BLOOD_GROUPS:
-        raise HTTPException(400, "Invalid blood group")
+        raise HTTPException(400, "ভুল ব্লাড গ্রুপ")
     if data.upazila not in UPAZILAS:
-        raise HTTPException(400, "Invalid upazila")
+        raise HTTPException(400, "ভুল উপজেলা")
     existing = donors_collection.find_one({"phone": data.phone})
     if existing:
-        raise HTTPException(400, "Donor with this phone already exists")
+        raise HTTPException(400, "এই ফোন নম্বরে ডোনার ইতিমধ্যে বিদ্যমান")
     donor = {
         "name": data.name,
         "phone": data.phone,
@@ -97,7 +100,7 @@ def register_donor(data: DonorRegister):
         "created_at": datetime.utcnow().isoformat()
     }
     donors_collection.insert_one(donor)
-    return {"message": "Donor registered successfully", "phone": data.phone}
+    return {"message": "ডোনার সফলভাবে নিবন্ধিত হয়েছে", "phone": data.phone}
 
 @app.get("/admin/donors", response_model=List[DonorResponse])
 def admin_get_all_donors():
@@ -108,22 +111,22 @@ def admin_get_all_donors():
 def admin_get_donor(phone: str):
     donor = donors_collection.find_one({"phone": phone})
     if not donor:
-        raise HTTPException(404, "Donor not found")
+        raise HTTPException(404, "ডোনার পাওয়া যায়নি")
     return donor_to_response(donor)
 
 @app.delete("/admin/donors/{phone}")
 def admin_delete_donor(phone: str):
     result = donors_collection.delete_one({"phone": phone})
     if result.deleted_count == 0:
-        raise HTTPException(404, "Donor not found")
-    return {"message": "Donor deleted"}
+        raise HTTPException(404, "ডোনার পাওয়া যায়নি")
+    return {"message": "ডোনার মুছে ফেলা হয়েছে"}
 
 # --- Auth Routes (User) ---
 @app.post("/auth/login")
 def donor_login(data: DonorLogin):
     donor = donors_collection.find_one({"phone": data.phone})
     if not donor:
-        raise HTTPException(404, "No account found with this phone number. Please contact admin to register.")
+        raise HTTPException(404, "এই ফোন নম্বরের কোনো অ্যাকাউন্ট পাওয়া যায়নি। নিবন্ধনের জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।")
     return {
         "token": f"user_{data.phone}",
         "donor": donor_to_response(donor)
@@ -144,7 +147,7 @@ def search_donors(blood_group: Optional[str] = None, upazila: Optional[str] = No
 def get_donor(phone: str):
     donor = donors_collection.find_one({"phone": phone, "is_registered": True})
     if not donor:
-        raise HTTPException(404, "Donor not found")
+        raise HTTPException(404, "ডোনার পাওয়া যায়নি")
     return donor_to_response(donor)
 
 # --- Blood Request Routes ---
@@ -161,7 +164,7 @@ def create_request(data: BloodRequest):
         "created_at": datetime.utcnow().isoformat()
     }
     requests_collection.insert_one(req)
-    return {"message": "Request submitted successfully"}
+    return {"message": "অনুরোধ সফলভাবে জমা দেওয়া হয়েছে"}
 
 @app.get("/requests/{phone}")
 def get_requests(phone: str):
@@ -190,4 +193,10 @@ def get_blood_groups():
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to Chuadanga Blood Bank API"}
+    return {"message": "Chuadanga Blood Bank API-তে স্বাগতম"}
+
+if __name__ == "__main__":
+    import uvicorn
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host=host, port=port, reload=True)

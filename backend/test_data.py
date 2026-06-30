@@ -1,4 +1,6 @@
-import urllib.request, json
+import urllib.request, json, os
+
+API_URL = os.getenv("APP_URL", "http://localhost:8000")
 
 donors = [
     {'name':'Rahim','phone':'01711111111','blood_group':'B+','upazila':'Alamdanga','address':'Alamdanga, Chuadanga'},
@@ -8,7 +10,7 @@ donors = [
 ]
 for d in donors:
     data = json.dumps(d).encode()
-    req = urllib.request.Request('http://localhost:8000/admin/register-donor', data=data, headers={'Content-Type':'application/json'})
+    req = urllib.request.Request(f'{API_URL}/admin/register-donor', data=data, headers={'Content-Type':'application/json'})
     try:
         res = urllib.request.urlopen(req)
         print(f"OK: {d['name']} - {res.read().decode()}")
